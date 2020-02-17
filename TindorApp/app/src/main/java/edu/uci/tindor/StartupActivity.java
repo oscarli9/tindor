@@ -57,9 +57,9 @@ public class StartupActivity extends AppCompatActivity {
                         }
                     });
                 }
+                Config.OFFLINE_MODE = false;
                 // Read data on the worker thread
                 final String responseData = response.body().string();
-
                 // Run view-related code back on the main thread
                 StartupActivity.this.runOnUiThread(new Runnable() {
                     @Override

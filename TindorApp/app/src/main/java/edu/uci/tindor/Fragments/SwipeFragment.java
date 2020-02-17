@@ -120,51 +120,75 @@ public class SwipeFragment extends Fragment {
 //        LinearLayout progressLayout = getActivity().findViewById(R.id.progressLayout);
 //        noUsersLayout.setVisibility(View.GONE);
 //        progressLayout.setVisibility(View.VISIBLE);
-        OkHttpClient client = new OkHttpClient();
-        Request request = new Request.Builder()
-                .url(url)
-                .build();
 
-        client.newCall(request).enqueue(new Callback() {
-            @Override
-            public void onFailure(Call call, IOException e) {
-                e.printStackTrace();
+        if (Config.OFFLINE_MODE) {
+
+            String[] names = {
+                    "Cutie",
+                    "TwoHa",
+                    "GrassMudHorse",
+                    "Snowball",
+            };
+            for (int i = 0; i < names.length; ++i) {
+                User u = new User();
+                String name = names[i];
+                u.name = name;
+                u.age = "18";
+                u.imageUrl = "photo" + name.toLowerCase();
+                rowItems.add(u);
             }
+            getActivity().runOnUiThread(new Runnable() {
+                @Override
+                public void run() {
+                    cardsAdapter.notifyDataSetChanged();
+                }
+            });
+        } else {
+            OkHttpClient client = new OkHttpClient();
+            Request request = new Request.Builder()
+                    .url(url)
+                    .build();
 
-            @Override
-            public void onResponse(Call call, final Response response) throws IOException {
-                if (!response.isSuccessful()) {
-                    return;
+            client.newCall(request).enqueue(new Callback() {
+                @Override
+                public void onFailure(Call call, IOException e) {
+                    e.printStackTrace();
                 }
 
-                final String responseData = response.body().string();
+                @Override
+                public void onResponse(Call call, final Response response) throws IOException {
+                    if (!response.isSuccessful()) {
+                        return;
+                    }
 
-                JSONObject js;
-                try {
-                    js = new JSONObject(responseData);
-                    JSONArray names = js.names();
-                    for (int i = 0; i < js.names().length(); ++i) {
-                        User u = new User();
-                        String name = names.getString (i);
-                        JSONObject user_js = js.getJSONObject(name);
-                        u.name = name;
-                        u.age = user_js.getString("age");
-                        u.imageUrl = user_js.getString("photo_url");
-                        rowItems.add(u);
+                    final String responseData = response.body().string();
+
+                    JSONObject js;
+                    try {
+                        js = new JSONObject(responseData);
+                        JSONArray names = js.names();
+                        for (int i = 0; i < js.names().length(); ++i) {
+                            User u = new User();
+                            String name = names.getString (i);
+                            JSONObject user_js = js.getJSONObject(name);
+                            u.name = name;
+                            u.age = user_js.getString("age");
+                            u.imageUrl = user_js.getString("photo_url");
+                            rowItems.add(u);
+                        }
                         getActivity().runOnUiThread(new Runnable() {
                             @Override
                             public void run() {
                                 cardsAdapter.notifyDataSetChanged();
                             }
                         });
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                        return;
                     }
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                    return;
                 }
-            }
-        });
-
+            });
+        }
 //        progressLayout.setVisibility(View.GONE);
     }
 

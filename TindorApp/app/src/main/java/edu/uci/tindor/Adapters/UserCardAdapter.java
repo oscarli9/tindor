@@ -19,6 +19,7 @@ import java.util.List;
 import edu.uci.tindor.R;
 import edu.uci.tindor.DataModel.User;
 import edu.uci.tindor.UserProfileActivity;
+import edu.uci.tindor.Utils.Config;
 
 public class UserCardAdapter extends ArrayAdapter {
 
@@ -35,10 +36,16 @@ public class UserCardAdapter extends ArrayAdapter {
         ImageView image = finalView.findViewById(R.id.photoIV);
         LinearLayout userInfo = finalView.findViewById(R.id.userInfoLayout);
         name.setText(user.name + ", " + user.age);
-        Glide.with(getContext())
-                .load(user.imageUrl)
-                //.load(new File(user.imageUrl))
-                .into(image);
+
+        if (Config.OFFLINE_MODE) {
+            int resourceImage = getContext().getResources().getIdentifier(user.imageUrl, "drawable", getContext().getPackageName());
+            image.setImageResource(resourceImage);
+        } else {
+            Glide.with(getContext())
+                    .load(user.imageUrl)
+                    //.load(new File(user.imageUrl))
+                    .into(image);
+        }
 
         userInfo.setOnClickListener(new View.OnClickListener() {
             @Override

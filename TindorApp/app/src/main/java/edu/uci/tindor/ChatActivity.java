@@ -50,9 +50,15 @@ public class ChatActivity extends AppCompatActivity{
         ImageView topPhotoIV = findViewById(R.id.topPhotoIV);
         //user.name
         topNameTV.setText(name);
-        Glide.with(this)
-                .load(imageUrl)
-                .into(topPhotoIV);
+
+        if (Config.OFFLINE_MODE) {
+            int resourceImage = this.getResources().getIdentifier(imageUrl, "drawable", this.getPackageName());
+            topPhotoIV.setImageResource(resourceImage);
+        } else {
+            Glide.with(this)
+                    .load(imageUrl)
+                    .into(topPhotoIV);
+        }
 
         Message message = new Message("222", "How are you doing?", Calendar.getInstance().getTime().toString());
         msgAdapter.addMessage(message);

@@ -18,6 +18,7 @@ import java.util.ArrayList;
 import edu.uci.tindor.ChatActivity;
 import edu.uci.tindor.DataModel.Chat;
 import edu.uci.tindor.R;
+import edu.uci.tindor.Utils.Config;
 
 public class ChatAdapter extends RecyclerView.Adapter{
 
@@ -45,9 +46,14 @@ public class ChatAdapter extends RecyclerView.Adapter{
         void bind(Chat chat) {
             name.setText(chat.name);
             if(image != null) {
-                Glide.with(view)
-                     .load(chat.imageUrl)
-                     .into(image);
+                if (Config.OFFLINE_MODE) {
+                    int resourceImage = view.getContext().getResources().getIdentifier(chat.imageUrl, "drawable", view.getContext().getPackageName());
+                    image.setImageResource(resourceImage);
+                } else {
+                    Glide.with(view)
+                            .load(chat.imageUrl)
+                            .into(image);
+                }
             }
             layout.setOnClickListener(new View.OnClickListener() {
                 @Override

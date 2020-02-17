@@ -50,11 +50,20 @@ public class MatchesFragment extends Fragment {
 
     public void fetchData() {
         String[] names = {"Adria", "Chloe", "Dana", "Lillian", "Norah", "Rosie"};
-        for(int i = 0; i < 6; ++i) {
-            chatAdapter.addElement(
-                    new Chat("1", "1", "1", names[i],
-                            Config.BASE_URL + "cat_photo/" + i + ".jpg")
-            );
+        if (Config.OFFLINE_MODE) {
+            for(int i = 0; i < 3; ++i) {
+                chatAdapter.addElement(
+                        new Chat("1", "1", "1", names[i],
+                                "cat" + names[i].toLowerCase())
+                );
+            }
+        } else {
+            for(int i = 0; i < 6; ++i) {
+                chatAdapter.addElement(
+                        new Chat("1", "1", "1", names[i],
+                                Config.BASE_URL + "cat_photo/" + i + ".jpg")
+                );
+            }
         }
     }
 }

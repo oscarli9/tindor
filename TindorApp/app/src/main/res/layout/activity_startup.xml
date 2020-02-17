@@ -34,7 +34,7 @@
             android:singleLine="false"
             android:text="tindor"
             android:textColor="#E91E63"
-            android:textSize="100sp" />
+            android:textSize="90sp" />
 
     </LinearLayout>
 
