@@ -39,7 +39,10 @@ public class UserCardAdapter extends ArrayAdapter {
 
         if (Config.OFFLINE_MODE) {
             int resourceImage = getContext().getResources().getIdentifier(user.imageUrl, "drawable", getContext().getPackageName());
-            image.setImageResource(resourceImage);
+            Glide.with(getContext())
+                    .load(resourceImage)
+                    //.load(new File(user.imageUrl))
+                    .into(image);
         } else {
             Glide.with(getContext())
                     .load(user.imageUrl)

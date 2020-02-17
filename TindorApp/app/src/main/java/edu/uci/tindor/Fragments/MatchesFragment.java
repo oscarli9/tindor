@@ -51,10 +51,10 @@ public class MatchesFragment extends Fragment {
     public void fetchData() {
         String[] names = {"Adria", "Chloe", "Dana", "Lillian", "Norah", "Rosie"};
         if (Config.OFFLINE_MODE) {
-            for(int i = 0; i < 3; ++i) {
+            for(int i = 0; i < 6; ++i) {
                 chatAdapter.addElement(
                         new Chat("1", "1", "1", names[i],
-                                "cat" + names[i].toLowerCase())
+                                "cat" + i)
                 );
             }
         } else {

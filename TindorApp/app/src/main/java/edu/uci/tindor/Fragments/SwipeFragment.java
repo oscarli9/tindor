@@ -125,9 +125,20 @@ public class SwipeFragment extends Fragment {
 
             String[] names = {
                     "Cutie",
-                    "TwoHa",
+                    "Doe",
+                    "Dolphin",
                     "GrassMudHorse",
+                    "Jerry",
+                    "Koala",
+                    "Pandagu",
+                    "PandaRed",
+                    "Peter",
+                    "QQ",
+                    "Sleepy",
                     "Snowball",
+                    "Sting",
+                    "TwoHa",
+                    "White",
             };
             for (int i = 0; i < names.length; ++i) {
                 User u = new User();

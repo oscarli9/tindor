@@ -48,7 +48,9 @@ public class ChatAdapter extends RecyclerView.Adapter{
             if(image != null) {
                 if (Config.OFFLINE_MODE) {
                     int resourceImage = view.getContext().getResources().getIdentifier(chat.imageUrl, "drawable", view.getContext().getPackageName());
-                    image.setImageResource(resourceImage);
+                    Glide.with(view)
+                            .load(resourceImage)
+                            .into(image);
                 } else {
                     Glide.with(view)
                             .load(chat.imageUrl)

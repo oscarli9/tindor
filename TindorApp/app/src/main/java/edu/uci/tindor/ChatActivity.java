@@ -53,7 +53,9 @@ public class ChatActivity extends AppCompatActivity{
 
         if (Config.OFFLINE_MODE) {
             int resourceImage = this.getResources().getIdentifier(imageUrl, "drawable", this.getPackageName());
-            topPhotoIV.setImageResource(resourceImage);
+            Glide.with(this)
+                    .load(resourceImage)
+                    .into(topPhotoIV);
         } else {
             Glide.with(this)
                     .load(imageUrl)
